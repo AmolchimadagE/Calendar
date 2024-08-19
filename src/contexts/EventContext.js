@@ -6,8 +6,40 @@ export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
-    setEvents(storedEvents);
+    const storedEvents = JSON.parse(localStorage.getItem('events'));
+    if (storedEvents && storedEvents.length > 0) {
+      setEvents(storedEvents);
+    } else {
+      // Add default events in different months
+      const defaultEvents = [
+        {
+          id: 1,
+          title: "Team Meeting",
+          date: "2024-08-15",
+          category: "Work"
+        },
+        {
+          id: 2,
+          title: "Family Picnic",
+          date: "2024-09-05",
+          category: "Personal"
+        },
+        {
+          id: 3,
+          title: "Conference",
+          date: "2024-10-20",
+          category: "Work"
+        },
+        {
+          id: 4,
+          title: "Birthday Party",
+          date: "2024-11-10",
+          category: "Personal"
+        }
+      ];
+      setEvents(defaultEvents);
+      localStorage.setItem('events', JSON.stringify(defaultEvents));
+    }
   }, []);
 
   useEffect(() => {
